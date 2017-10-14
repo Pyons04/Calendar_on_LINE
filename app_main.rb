@@ -84,7 +84,7 @@ post '/callback' do
         text="hallo World!"
         message = {
           type: 'text',
-          text: event.message['text']
+          text: "Hello World!"
         }
         client.reply_message(event['replyToken'], message)
       when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
