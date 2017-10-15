@@ -3,7 +3,8 @@ File.open("notebook.txt","r")do|f|
   puts f.read
   today=f.read
   f.close
-end
+  return(today)
+  end
 end
 
 def add_content
@@ -48,6 +49,7 @@ post '/callback' do
 
         case event.message['text']
         when 'Today' then
+        today=""
         reading_note(today)
         text=today
         message = {type: 'text',text:text}
