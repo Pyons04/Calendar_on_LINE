@@ -27,15 +27,15 @@ post '/callback' do
     error 400 do 'Bad Request' end
   end
 
-def file_read(fix_arry)
+def file_read
   events = client.parse_events_from(body)
 #ファイルの読み込み
      s = []
      File.open("notebook.txt", mode = "rt"){|f|
      s = f.readlines
      }
-     fix_arry=s.join("\n")#配列オブジェクトを改行を入れて文字列に変換
-     puts fix_arry
+     @fix_arry=s.join("\n")#配列オブジェクトを改行を入れて文字列に変換
+     puts @fix_arry
 end
 
   events.each { |event|
@@ -49,9 +49,8 @@ end
         case event.message['text']
 
         when 'Today' then
-        fix_arry=""
-        file_read(fix_arry)
-        text=fix_arry
+        file_read(@fix_arry)
+        text=@fix_arry
         message = {type: 'text',text:text}
         client.reply_message(event['replyToken'], message)
 
