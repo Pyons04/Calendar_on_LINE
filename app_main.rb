@@ -49,6 +49,7 @@ post '/callback' do
 
         when 'Today' then
         @paraData.each do |data|
+        client.reply_message(event['replyToken'], "今日の予定です。")
         puts data
         message = {type: 'text',text:data}
         client.reply_message(event['replyToken'], message)
