@@ -1,10 +1,5 @@
-def reading_note(today)
-File.open("notebook.txt","r")do|f|
-  puts f.read
-  today=f.read
-  f.close
-  return(today)
-  end
+def read_file(para_data)
+  @paraData=File.open("notebook.txt").readlines
 end
 
 def add_content
@@ -48,12 +43,17 @@ post '/callback' do
       when Line::Bot::Event::MessageType::Text 
 
         case event.message['text']
+
         when 'Today' then
-        today=""
-        reading_note(today)
-        text=today
-        message = {type: 'text',text:text}
+        @para_Data=[]  #空の配列を作成
+        read_file(@para_data)  #配列を引数として渡す
+        @paraData.each do |data|
+        puts(data)
+        end
+        message = {type: 'text',text:@paradata}
         client.reply_message(event['replyToken'], message)
+
+
         when 'Tomorrow' then
         text="明日の予定はありません。"
         message = {type: 'text',text:text}
