@@ -44,7 +44,6 @@ post '/callback' do
 
         when 'Today' then
         puts @paraData
-        binding.pry
         message = {type: 'text',text:@paraData}
         client.reply_message(event['replyToken'], message)
 
