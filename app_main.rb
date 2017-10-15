@@ -1,5 +1,6 @@
 def read_file(para_data)
   @paraData=File.open("notebook.txt").readlines
+  binding.pry
 end
 
 def add_content
@@ -40,13 +41,15 @@ post '/callback' do
     case event
     when Line::Bot::Event::Message
       case event.type
-      when Line::Bot::Event::MessageType::Text 
+      when Line::Bot::Event::MessageType::Text
+
+
 
         case event.message['text']
 
         when 'Today' then
         @para_Data=[]  #空の配列を作成
-        read_file(@para_data)  #配列を引数として渡す
+        @paraData=File.open("notebook.txt").readlines
         @paraData.each do |data|
         puts(data)
         end
