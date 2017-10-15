@@ -1,8 +1,6 @@
 
 
 def add_content
-
-
 end
 
 require 'sinatra'
@@ -45,7 +43,8 @@ post '/callback' do
         case event.message['text']
 
         when 'Today' then
-        puts @paraData.to_s
+        puts @paraData
+        binding.pry
         message = {type: 'text',text:@paraData}
         client.reply_message(event['replyToken'], message)
 
