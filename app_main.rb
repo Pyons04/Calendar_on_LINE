@@ -29,8 +29,8 @@ post '/callback' do
 
 
   events = client.parse_events_from(body)
-  @paraData=[]  #空の配列を作成
-  @paraData=File.open("notebook.txt").readlines
+
+  @paraData=File.open("notebook.txt")
 
   events.each { |event|
     case event
@@ -43,7 +43,6 @@ post '/callback' do
         case event.message['text']
 
         when 'Today' then
-        puts @paraData
         text=@paraData
         message = {type: 'text',text:text}
         client.reply_message(event['replyToken'], message)
