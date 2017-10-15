@@ -1,7 +1,4 @@
-def read_file(para_data)
-  @paraData=File.open("notebook.txt").readlines
-  binding.pry
-end
+
 
 def add_content
 
@@ -51,10 +48,10 @@ post '/callback' do
         @paraData=[]  #空の配列を作成
         @paraData=File.open("notebook.txt").readlines
         @paraData.each do |data|
-        puts(data)
-        end
-        message = {type: 'text',text:@paradata}
+        puts data
+        message = {type: 'text',text:data}
         client.reply_message(event['replyToken'], message)
+        end
 
 
         when 'Tomorrow' then
