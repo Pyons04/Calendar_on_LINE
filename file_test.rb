@@ -1,12 +1,8 @@
-        @paraData=[]  #空の配列を作成
-        @paraData=File.open("notebook.txt"){|f|
-        puts("--------------------------")
-        f.each_line{|line|
-          p line
-        }
-      }
-        puts("--------------------------")
-        @paraData=File.open("notebook.txt")
-        @paraData.each do |data|
-        puts(data)
-        end
+     s = []
+     File.open("notebook.txt", mode = "rt"){|f|
+     s = f.readlines
+     }
+     puts s
+
+     fix_arry=s.join("\n")
+     puts fix_arry

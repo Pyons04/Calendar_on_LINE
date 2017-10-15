@@ -1,1 +1,4 @@
-10/11,11:30,attend class|10/12,16:30,parttime job|10/12,18:00.Swimming|10/12,24:00,Dinner
+10/11,11:30,attend class
+10/12,16:30,parttime job
+10/12,18:00.Swimming
+10/12,24:00,Dinner
