@@ -1,6 +1,7 @@
 
 require 'sinatra'
 require 'line/bot'
+require 'pry'
 
 # 微小変更部分！確認用。
 get '/' do
@@ -28,6 +29,7 @@ post '/callback' do
     when Line::Bot::Event::Message
       case event.type
       when Line::Bot::Event::MessageType::Text
+        binding.pry
         text="こんにちわ！"
         message = {type: 'text',text:text}
         client.reply_message(event['replyToken'], message)
