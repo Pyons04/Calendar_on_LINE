@@ -36,9 +36,6 @@ post '/callback' do
   events = client.parse_events_from(body)
   @paraData=[]  #空の配列を作成
   @paraData=File.open("notebook.txt").readlines
-  @paraData each do |data|
-  puts data
-  end
 
   events.each { |event|
     case event
