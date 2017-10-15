@@ -23,16 +23,26 @@ post '/callback' do
     error 400 do 'Bad Request' end
   end
 
+
   events = client.parse_events_from(body)
   events.each { |event|
     case event
     when Line::Bot::Event::Message
       case event.type
-      when Line::Bot::Event::MessageType::Text
-        binding.pry
-        text="こんにちわ！"
+      when Line::Bot::Event::MessageType::Text 
+
+        case event.message['text']
+        when 'Today' then
+        text="今日の予定はありません。"
         message = {type: 'text',text:text}
         client.reply_message(event['replyToken'], message)
+        when 'Tomorrow' then
+        text="明日の予定はありません。"
+        message = {type: 'text',text:text}
+        client.reply_message(event['replyToken'], message)
+      end
+
+
       when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
         response = client.get_message_content(event.message['id'])
         tf = Tempfile.open("content")
