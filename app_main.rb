@@ -44,7 +44,8 @@ post '/callback' do
 
         when 'Today' then
         puts @paraData
-        message = {type: 'text',text:@paraData}
+        text=@paraData
+        message = {type: 'text',text:text}
         client.reply_message(event['replyToken'], message)
 
 
