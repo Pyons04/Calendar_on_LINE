@@ -1,3 +1,18 @@
+def reading_note(today)
+File.open("notebook.txt","r")do|f|
+  puts f.read
+  today=f.read
+  f.close
+end
+end
+
+def add_content
+
+
+end
+
+
+
 
 require 'sinatra'
 require 'line/bot'
@@ -33,14 +48,15 @@ post '/callback' do
 
         case event.message['text']
         when 'Today' then
-        text="今日の予定はありません。"
+        reading_note(today)
+        text=today
         message = {type: 'text',text:text}
         client.reply_message(event['replyToken'], message)
         when 'Tomorrow' then
         text="明日の予定はありません。"
         message = {type: 'text',text:text}
         client.reply_message(event['replyToken'], message)
-      end
+        end
 
 
       when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
