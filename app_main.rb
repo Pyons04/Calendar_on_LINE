@@ -118,10 +118,26 @@ post '/callback' do
    end
 
    def add_todo(content)
+    #最も大きいリストの管理番号を入手しそれより一つ大きい管理番号を発行する。
+     require "rails"
+     s = []
+     File.open("notebook.txt", mode = "rt"){|f|
+     s = f.readlines
+     }
+     last_management_number=s.last.to_s
+     puts(last_management_number)
+     re = Regexp.new('\[.+?\]')
+     last_management_number = re.match(last_management_number).to_s
+     last_management_number=last_management_number.delete('[').delete(']').to_i
+     new_management_number=last_management_number+1
+    #最も大きいリストの管理番号を入手しそれより一つ大きい管理番号を発行する。終わり。
+
+    puts new_management_number
+    content=content.chomp
     content=content.delete('Add')
     File.open("notebook.txt","a") do |notebook|
-    notebook.puts(content)
-    end
+    notebook.puts("["+new_management_number.to_s+"]"+content)
+  end
     return(content).delete('Add')
   end
 
