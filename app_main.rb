@@ -63,9 +63,11 @@ post '/callback' do
      File.open("notebook.txt", mode = "rt"){|f|
      s = f.readlines
      }
+     puts s.to_s
      today=Date.today.to_s
      tomorrow=Date.tomorrow.to_s
 
+     puts today
      now = Date.today
      daysafter2 = now + 2.days
      daysafter3 = now + 3.days
@@ -81,8 +83,11 @@ post '/callback' do
      daysafter6=daysafter6.to_s
      daysafter7=daysafter7.to_s
 
+     puts daysafter2
+
      send=[]
 
+     send.push(s.select{|item| item.include? (today)})
      send.push(s.select{|item| item.include? (tomorrow)})
      send.push(s.select{|item| item.include? (daysafter2)})
      send.push(s.select{|item| item.include? (daysafter3)})
@@ -120,7 +125,7 @@ post '/callback' do
         message = {type: 'text',text:text}
         client.reply_message(event['replyToken'], message)
 
-      when 'week' then
+        when 'Week' then
         week(@fix_arry)
         text=@fix_arry
         puts text

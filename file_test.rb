@@ -51,7 +51,7 @@ def week(fix_arry)
      daysafter7=daysafter7.to_s
 
      send=[]
-
+     send.push(s.select{|item| item.include? (today)})
      send.push(s.select{|item| item.include? (tomorrow)})
      send.push(s.select{|item| item.include? (daysafter2)})
      send.push(s.select{|item| item.include? (daysafter3)})
@@ -60,7 +60,7 @@ def week(fix_arry)
      send.push(s.select{|item| item.include? (daysafter6)})
      send.push(s.select{|item| item.include? (daysafter7)})
 
-     @fix_arry=send.join("\n")#配列オブジェクトを改行を入れて文字列に変換
+     @fix_arry=send#配列オブジェクトを改行を入れて文字列に変換
    end
 
         @fix_arry=""
