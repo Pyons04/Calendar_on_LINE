@@ -132,9 +132,8 @@ post '/callback' do
         puts (text+"を送信します。")
         message = {type: 'text',text:text}
         client.reply_message(event['replyToken'], message)
-        end
 
-        when.include?(Add)
+        when include?('Add') then
         print("予定の追加")
         text="when文のテスト"
         message = {type: 'text',text:text}
