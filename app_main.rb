@@ -134,6 +134,13 @@ post '/callback' do
         client.reply_message(event['replyToken'], message)
         end
 
+        when.include?(Add)
+        print("予定の追加")
+        text="when文のテスト"
+        message = {type: 'text',text:text}
+        client.reply_message(event['replyToken'], message)
+        end
+
 
         when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
         response = client.get_message_content(event.message['id'])
