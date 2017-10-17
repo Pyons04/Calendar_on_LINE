@@ -1,5 +1,4 @@
 
-
 require 'sinatra'
 require 'line/bot'
 require 'pry'
@@ -99,55 +98,20 @@ post '/callback' do
      @fix_arry=send.join("\n")
    end
 
+   def add_todo(content)
+    content=content.delete('Add')
+    File.open("notebook.txt","a") do |notebook|
+    notebook.puts(content)
+    end
+    return(content).delete('Add')
+  end
+
+
 
     case event
     when Line::Bot::Event::Message
       case event.type
       when Line::Bot::Event::MessageType::Text
-
-
-
-      #   case event.message['text']
-
-      #   when 'Today' then
-      #   @fix_arry=""
-      #   today(@fix_arry)
-      #   text=@fix_arry
-      #   puts text
-      #   message = {type: 'text',text:text}
-      #   client.reply_message(event['replyToken'], message)
-
-
-      #   when 'Tomorrow' then
-      #   tomorrow(@fix_arry)
-      #   text=@fix_arry
-      #   puts text
-      #   message = {type: 'text',text:text}
-      #   client.reply_message(event['replyToken'], message)
-
-      #   when 'Week' then
-      #   week(@fix_arry)
-      #   text=@fix_arry
-      #   puts text
-      #   puts (text+"を送信します。")
-      #   message = {type: 'text',text:text}
-      #   client.reply_message(event['replyToken'], message)
-
-      #   when include?('Add') then
-      #   print("予定の追加")
-      #   text="when文のテスト"
-      #   message = {type: 'text',text:text}
-      #   client.reply_message(event['replyToken'], message)
-      #   end
-
-
-      #   when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
-      #   response = client.get_message_content(event.message['id'])
-      #   tf = Tempfile.open("content")
-      #   tf.write(response.body)
-      # end
-
-         #case event.message['text']
 
          if event.message['text']=="Today"
          @fix_arry=""
@@ -174,8 +138,9 @@ post '/callback' do
          client.reply_message(event['replyToken'], message)
 
          elsif event.message['text'].include?('Add')
-         print("予定の追加")
-         text="when文のテスト"
+         contents=event.message['text']
+         add_todo(content)
+         text=(content+"をtodoリストに追加しました。")
          message = {type: 'text',text:text}
          client.reply_message(event['replyToken'], message)
 

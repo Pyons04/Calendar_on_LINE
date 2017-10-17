@@ -63,7 +63,20 @@ def week(fix_arry)
      @fix_arry=send#配列オブジェクトを改行を入れて文字列に変換
    end
 
+def add_todo(content)
+    content=content.delete('Add')
+    File.open("notebook.txt","a") do |notebook|
+    notebook.puts(content)
+  end
+    return(content)
+  end
+
         @fix_arry=""
         week(@fix_arry)
         text=@fix_arry
         puts text
+        puts("予定を入力してください")
+        content=gets.to_s
+        add_todo(content)
+        puts("入力完了"+content)
+
