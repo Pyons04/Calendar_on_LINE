@@ -55,6 +55,25 @@ post '/callback' do
      @fix_arry=s.join("\n")#配列オブジェクトを改行を入れて文字列に変換
    end
 
+  def month(fix_arry)
+     require "rails"
+     s = []
+     File.open("notebook.txt", mode = "rt"){|f|
+     s = f.readlines
+     }
+
+     number=1
+     send=[]
+     while number<32 do
+     now = Date.today
+     daysafter = now + number.days
+     daysafter=daysafter.to_s
+     send.push(s.select{|item| item.include? (daysafter)})
+     number=number+1
+     end
+     @fix_arry=send.join
+   end
+
 
    def week(fix_arry)
      require "rails"
@@ -140,9 +159,18 @@ post '/callback' do
          elsif event.message['text'].include?('Add')
          content=event.message['text']
          add_todo(content)
-         text=(content+"をtodoリストに追加しました。")
+         text=(content.delete('Add')+"をtodoリストに追加しました。")
          message = {type: 'text',text:text}
          client.reply_message(event['replyToken'], message)
+
+         elsif event.message['text']=="Month"
+         month(@fix_arry)
+         text=@fix_arry
+         puts text
+         puts (text+"を送信します。")
+         message = {type: 'text',text:text}
+         client.reply_message(event['replyToken'], message)
+
 
          else
          text="不正なコマンドが入力されています。"

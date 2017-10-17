@@ -25,6 +25,25 @@ def tomorrow(fix_arry)
      @fix_arry=s.join("\n")#配列オブジェクトを改行を入れて文字列に変換
    end
 
+   def month(fix_arry)
+     require "rails"
+     s = []
+     File.open("notebook.txt", mode = "rt"){|f|
+     s = f.readlines
+     }
+
+     number=1
+     send=[]
+     while number<32 do
+     now = Date.today
+     daysafter = now + number.days
+     daysafter=daysafter.to_s
+     send.push(s.select{|item| item.include? (daysafter)})
+     number=number+1
+     end
+     @fix_arry=send.join
+   end
+
 
 def week(fix_arry)
      require "rails"
@@ -68,15 +87,11 @@ def add_todo(content)
     File.open("notebook.txt","a") do |notebook|
     notebook.puts(content)
   end
-    return(content)
+    return(content).delete('Add')
   end
 
         @fix_arry=""
-        week(@fix_arry)
+        month(@fix_arry)
         text=@fix_arry
         puts text
-        puts("予定を入力してください")
-        content=gets.to_s
-        add_todo(content)
-        puts("入力完了"+content)
 
