@@ -27,8 +27,6 @@ def tomorrow(fix_arry)
 
 
 def week(fix_arry)
-     require 'active_support'
-     require "Date"
      require "rails"
      s = []
      File.open("notebook.txt", mode = "rt"){|f|
