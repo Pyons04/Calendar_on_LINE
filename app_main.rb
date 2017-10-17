@@ -96,7 +96,7 @@ post '/callback' do
      send.push(s.select{|item| item.include? (daysafter6)})
      send.push(s.select{|item| item.include? (daysafter7)})
 
-     @fix_arry=send
+     @fix_arry=send.join("\n")
    end
 
 
