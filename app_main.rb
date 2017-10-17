@@ -129,8 +129,8 @@ post '/callback' do
         week(@fix_arry)
         text=@fix_arry
         puts text
-        message = {type: 'text',text:text}
         puts (message+"を送信します。")
+        message = {type: 'text',text:text}
         client.reply_message(event['replyToken'], message)
         end
 
