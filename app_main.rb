@@ -138,7 +138,7 @@ post '/callback' do
          client.reply_message(event['replyToken'], message)
 
          elsif event.message['text'].include?('Add')
-         contents=event.message['text']
+         content=event.message['text']
          add_todo(content)
          text=(content+"をtodoリストに追加しました。")
          message = {type: 'text',text:text}
