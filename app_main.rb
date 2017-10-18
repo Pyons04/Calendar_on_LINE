@@ -152,10 +152,14 @@ end
      send.push(s.select{|item| item.include? (daysafter6)})
      send.push(s.select{|item| item.include? (daysafter7)})
 
-     @fix_arry=send.join("\n")
+     @fix_arry=send.join
    end
 
    def add_todo(content)
+    #ファイルが空だった場合最初の番号を振る（未実装）
+    #記入された日付の曜日を取得する（未実装）
+    #来週の月曜日、次の金曜日といった、あいまいなワードのとき正確な日付を把握する
+    
     #最も大きいリストの管理番号を入手しそれより一つ大きい管理番号を発行する。
      require "rails"
      s = []
