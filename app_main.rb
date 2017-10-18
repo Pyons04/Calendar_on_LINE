@@ -62,6 +62,8 @@ post '/callback' do
       f.puts(todo)
      end
     end
+    number="削除に成功しました。"
+    return(number)
   end
 end
 
@@ -226,7 +228,7 @@ end
          elsif event.message['text'].include?('Delete')
          number=event.message['text']
          response=delete(number)
-         text=(response)
+         text=response
          message = {type: 'text',text:text}
          client.reply_message(event['replyToken'], message)
 
