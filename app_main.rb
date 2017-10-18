@@ -29,6 +29,42 @@ post '/callback' do
   events = client.parse_events_from(body)
   events.each { |event|
 
+    def delete(number)
+#すべての予定（配列）をnotebookから配列に追加
+     require "rails"
+     require "pry"
+       s = []
+       File.open("notebook.txt", mode = "rt"){|f|
+       s = f.readlines
+       }
+#指定した番号のレコードだけ配列から削除
+     number=number.delete("Delete")
+     number=number.gsub(" ", "")
+     number=number.chomp
+     target=("["+number+"]")
+     target=target.chomp
+#指定された番号のレコードが存在しない場合の条件処理
+     confirm=[]
+     confirm=s.select{|item| item.include? (target)}
+     binding.pry
+  if confirm.empty? then
+     number="削除に失敗しました。"
+     return(number)
+  else
+     s=s.reject!{|e|e.include?(target)}
+#notebook.txtを削除
+     filename = 'notebook.txt'
+     File.unlink filename
+#新しくnotebook.txtを作成。
+    File.open("notebook.txt","w")do|f|
+#削除済みの配列をデータにして一つ一つ書き込みなおす。
+     s.each do |todo|
+      f.puts(todo)
+     end
+    end
+  end
+end
+
    def today(fix_arry)
      require "date"
      s = []
@@ -184,6 +220,13 @@ post '/callback' do
          text=@fix_arry
          puts text
          puts (text+"を送信します。")
+         message = {type: 'text',text:text}
+         client.reply_message(event['replyToken'], message)
+
+         elsif event.message['text'].include?('Delete')
+         number=event.message['text']
+         response=delete(number)
+         text=(response)
          message = {type: 'text',text:text}
          client.reply_message(event['replyToken'], message)
 
