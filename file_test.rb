@@ -8,7 +8,12 @@
      today=Date.today.to_s
      puts("今日の日付は"+today)
      s=s.select{|item| item.include? (today)}
-     @fix_arry=s.join("\n")#配列オブジェクトを改行を入れて文字列に変換
+     if s.join()==""
+      @fix_arry="表示するコンテンツがありません"
+     elsif
+      send=send.join()
+      @fix_arry=send#配列オブジェクトを改行を入れて文字列に変換
+     end
 end
 
 
@@ -22,7 +27,12 @@ def tomorrow(fix_arry)
      tomorrow=Date.tomorrow.to_s
      puts("明日の日付は"+tomorrow)
      s=s.select{|item| item.include? (tomorrow)}
-     @fix_arry=s.join("\n")#配列オブジェクトを改行を入れて文字列に変換
+     if s.join()==""
+      @fix_arry="表示するコンテンツがありません"
+     elsif
+      send=send.join()
+      @fix_arry=send#配列オブジェクトを改行を入れて文字列に変換
+     end
    end
 
    def month(fix_arry)
@@ -41,12 +51,18 @@ def tomorrow(fix_arry)
      send.push(s.select{|item| item.include? (daysafter)})
      number=number+1
      end
-     @fix_arry=send.join
+     if send.join()=="" #配列の中身が全て空で文字列に変換したとき表示させるものがない場合。
+      @fix_arry="表示するコンテンツがありません"
+     elsif
+      send=send.join()
+      @fix_arry=send#配列オブジェクトを改行を入れて文字列に変換
+     end
    end
 
 
 def week(fix_arry)
      require "rails"
+     require "pry"
      s = []
      File.open("notebook.txt", mode = "rt"){|f|
      s = f.readlines
@@ -78,8 +94,12 @@ def week(fix_arry)
      send.push(s.select{|item| item.include? (daysafter5)})
      send.push(s.select{|item| item.include? (daysafter6)})
      send.push(s.select{|item| item.include? (daysafter7)})
-
-     @fix_arry=send#配列オブジェクトを改行を入れて文字列に変換
+     if send.join()==""
+      @fix_arry="表示するコンテンツがありません"
+     elsif
+      send=send.join()
+      @fix_arry=send#配列オブジェクトを改行を入れて文字列に変換
+     end
    end
 
 def add_todo(content)
@@ -143,9 +163,6 @@ def delete(number)
 end
 
         @fix_arry=""
-        puts ("コマンドを入力してください。（Delete削除したい番号。）")
-        command=gets.to_s
-        number=command
-        number=delete(number)
+        number=tomorrow(@fix_arry)
         puts(number)
 

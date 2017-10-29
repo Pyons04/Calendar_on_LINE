@@ -10,6 +10,4 @@
 [13]2017-10-18 go shopping
 [14]2017-10-14 Cooking Dinner
 [15]2017-10-12 Eating Lunch with my friends
-[16]2017-11-25 Running
 [17]2017-12-24 Final Examination
-[18] ruby on rails 2017-11-12

@@ -68,7 +68,8 @@ post '/callback' do
 end
 
    def today(fix_arry)
-     require "date"
+#ファイルの読み込み
+  require "date"
      s = []
      File.open("notebook.txt", mode = "rt"){|f|
      s = f.readlines
@@ -76,11 +77,16 @@ end
      today=Date.today.to_s
      puts("今日の日付は"+today)
      s=s.select{|item| item.include? (today)}
-     @fix_arry=s.join("\n")#配列オブジェクトを改行を入れて文字列に変換
-   end
+     if s.join()==""
+      @fix_arry="表示するコンテンツがありません"
+     elsif
+      send=send.join()
+      @fix_arry=send#配列オブジェクトを改行を入れて文字列に変換
+     end
+end
 
 
-   def tomorrow(fix_arry)
+def tomorrow(fix_arry)
      require "rails"
      require "date"
      s = []
@@ -90,7 +96,12 @@ end
      tomorrow=Date.tomorrow.to_s
      puts("明日の日付は"+tomorrow)
      s=s.select{|item| item.include? (tomorrow)}
-     @fix_arry=s.join("\n")#配列オブジェクトを改行を入れて文字列に変換
+     if s.join()==""
+      @fix_arry="表示するコンテンツがありません"
+     elsif
+      send=send.join()
+      @fix_arry=send#配列オブジェクトを改行を入れて文字列に変換
+     end
    end
 
   def month(fix_arry)
@@ -109,21 +120,25 @@ end
      send.push(s.select{|item| item.include? (daysafter)})
      number=number+1
      end
-     @fix_arry=send.join
+     if send.join()=="" #配列の中身が全て空で文字列に変換したとき表示させるものがない場合。
+      @fix_arry="表示するコンテンツがありません"
+     elsif
+      send=send.join()
+      @fix_arry=send#配列オブジェクトを改行を入れて文字列に変換
+     end
    end
 
 
-   def week(fix_arry)
+ def week(fix_arry)
      require "rails"
+     require "pry"
      s = []
      File.open("notebook.txt", mode = "rt"){|f|
      s = f.readlines
      }
-     puts s.to_s
      today=Date.today.to_s
      tomorrow=Date.tomorrow.to_s
 
-     puts today
      now = Date.today
      daysafter2 = now + 2.days
      daysafter3 = now + 3.days
@@ -139,10 +154,7 @@ end
      daysafter6=daysafter6.to_s
      daysafter7=daysafter7.to_s
 
-     puts daysafter2
-
      send=[]
-
      send.push(s.select{|item| item.include? (today)})
      send.push(s.select{|item| item.include? (tomorrow)})
      send.push(s.select{|item| item.include? (daysafter2)})
@@ -151,8 +163,12 @@ end
      send.push(s.select{|item| item.include? (daysafter5)})
      send.push(s.select{|item| item.include? (daysafter6)})
      send.push(s.select{|item| item.include? (daysafter7)})
-
-     @fix_arry=send.join
+     if send.join()==""
+      @fix_arry="表示するコンテンツがありません"
+     elsif
+      send=send.join()
+      @fix_arry=send#配列オブジェクトを改行を入れて文字列に変換
+     end
    end
 
    def add_todo(content)
