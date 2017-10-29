@@ -80,7 +80,7 @@ end
      if s.join()==""
       @fix_arry="表示するコンテンツがありません"
      elsif
-      send=send.join()
+      send=s.join()
       @fix_arry=send#配列オブジェクトを改行を入れて文字列に変換
      end
 end
@@ -99,7 +99,7 @@ def tomorrow(fix_arry)
      if s.join()==""
       @fix_arry="表示するコンテンツがありません"
      elsif
-      send=send.join()
+      send=s.join()
       @fix_arry=send#配列オブジェクトを改行を入れて文字列に変換
      end
    end
