@@ -3,7 +3,6 @@ require "date"
 
 t = Time.now
 strTime = t.strftime("%H:%M").to_s
-puts strTime
 
 if strTime=="06:00"
 
@@ -71,7 +70,7 @@ else
 
 
      if s.join()==""
-        puts"\n\nNo Tsak has been registerd. The process has been finished."
+        puts"\n\nNo Tsak has been registered. The process has been finished."
 
 
      elsif
@@ -94,8 +93,4 @@ else
     puts ("\n\n#{response}")
     puts "\n\nPuse process has been finished."
      end
-
-
-
-
 end
