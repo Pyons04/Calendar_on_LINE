@@ -41,25 +41,37 @@ if strTime=="06:00"
 
 else
 
-    s = []
+     s = []
      File.open("notebook.txt", mode = "rt"){|f|
      s = f.readlines
      }
+
+     puts("All contents")
+     puts s.join()
+     puts("All contents end")
+
+
      today=Date.today.to_s
-     puts("Today is "+today)
+     puts("\n\nToday is "+today)
      s=s.select{|item| item.include? (today)}
 
+     puts("\n\nToday's contents")
      puts s.join()
+     puts("Today's contetns end")
 
      t = Time.now
      strTime = t.strftime("%H:%M").to_s
      strTime = "!#{strTime}"
-     puts strTime
+     puts ("\n\nI will find  #{strTime} from the array.")
      s=s.select{|item| item.include?(strTime)}
+
+     puts("\n\nPush Contents")
+     puts s.join()
+     puts("Push contents end")
 
 
      if s.join()==""
-        puts"No Tsak has been registerd."
+        puts"\n\nNo Tsak has been registerd. The process has been finished."
 
 
      elsif
@@ -71,7 +83,7 @@ else
       text: "#{fix_arry}"
     }
 
-    puts message
+    puts ("\n\nSend this message to LINE. \n#{message}")
 
     client = Line::Bot::Client.new { |config|
         config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
@@ -79,8 +91,8 @@ else
     }
 
     response = client.push_message(ENV["Your_user_id"], message)
-    p response
-    puts 'Puse process has been finished.'
+    puts ("\n\n#{response}")
+    puts "\n\nPuse process has been finished."
      end
 
 
