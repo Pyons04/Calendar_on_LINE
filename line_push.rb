@@ -49,13 +49,19 @@ else
      puts("Today is "+today)
      s=s.select{|item| item.include? (today)}
 
+     puts s.join()
+
      t = Time.now
      strTime = t.strftime("%H:%M").to_s
      strTime = "!#{strTime}"
      puts strTime
      s=s.select{|item| item.include?(strTime)}
+
+
      if s.join()==""
         puts"No Tsak has been registerd."
+
+
      elsif
       send=s.join()
       send="Reminder!\n#{send}"
