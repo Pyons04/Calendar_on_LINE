@@ -3,9 +3,8 @@ require 'sinatra'
 require 'line/bot'
 require 'pry'
 
-# 微小変更部分！確認用。
 get '/' do
-  "Hello world"
+  "This is an app for CLI."
 end
 
 def client
@@ -34,9 +33,16 @@ post '/callback' do
      require "rails"
      require "pry"
        s = []
-       File.open("notebook.txt", mode = "rt"){|f|
-       s = f.readlines
-       }
+     require "pg"
+     # データベース接続する
+     connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => "d2m0jpbel3clgh",:port=>"5432")
+     result = connection.exec("SELECT * FROM notebook")
+     # データベースへのコネクションを切断する
+     connection.finish
+     #データベースの内容を配列に収納
+     result.each do |record|
+     s<<record['content']
+     end
 #指定した番号のレコードだけ配列から削除
      number=number.delete("Delete")
      number=number.gsub(" ", "")
@@ -111,7 +117,7 @@ def tomorrow(fix_arry)
      s = f.readlines
      }
 
-     number=1
+     number=0
      send=[]
      while number<32 do
      now = Date.today
