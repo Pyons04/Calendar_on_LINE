@@ -22,9 +22,6 @@ post '/callback' do
     error 400 do 'Bad Request' end
   end
 
-
-
-
   events = client.parse_events_from(body)
   events.each { |event|
 
@@ -58,12 +55,11 @@ post '/callback' do
      return(number)
   else
      s=s.reject!{|e|e.include?(target)}
-#notebook.txtを削除
      #全てのレコードを削除を削除
      connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => ENV["DB_NAME"],:port=>"5432")
      result = connection.exec("DELETE FROM notebook")
      connection.finish
-#削除済みの配列をデータにして一つ一つデータベースに書き込みなおす。
+     #削除済みの配列をデータにして一つ一つデータベースに書き込みなおす。
       s.each do |todo|
        connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => ENV["DB_NAME"],:port=>"5432")
       result = connection.exec("INSERT INTO notebook(content) VALUES('#{todo}')")
@@ -99,7 +95,6 @@ end
       @fix_arry=send#配列オブジェクトを改行を入れて文字列に変換
      end
 end
-
 
 def tomorrow(fix_arry)
      require "rails"
@@ -156,7 +151,6 @@ def tomorrow(fix_arry)
       @fix_arry=send#配列オブジェクトを改行を入れて文字列に変換
      end
    end
-
 
  def week(fix_arry)
      require "rails"
@@ -246,8 +240,6 @@ def tomorrow(fix_arry)
      return(content).delete('Add')
   end
 
-
-
     case event
     when Line::Bot::Event::Message
       case event.type
@@ -260,7 +252,6 @@ def tomorrow(fix_arry)
          puts text
          message = {type: 'text',text:text}
          client.reply_message(event['replyToken'], message)
-
 
          elsif event.message['text']=="Tomorrow"
          tomorrow(@fix_arry)
@@ -299,7 +290,6 @@ def tomorrow(fix_arry)
          message = {type: 'text',text:text}
          client.reply_message(event['replyToken'], message)
 
-
          else
          text="不正なコマンドが入力されています。"
          message = {type: 'text',text:text}
@@ -313,6 +303,5 @@ def tomorrow(fix_arry)
          end
     end
   }
-
   "OK"
 end
