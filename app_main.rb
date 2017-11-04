@@ -32,7 +32,7 @@ post '/callback' do
 #すべての予定（配列）をnotebookから配列に追加
      require "rails"
      require "pry"
-       s = []
+     s = []
      require "pg"
      # データベース接続する
      connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => ENV["DB_NAME"],:port=>"5432")

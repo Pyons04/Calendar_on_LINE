@@ -4,13 +4,20 @@ require "date"
 t = Time.now
 strTime = t.strftime("%H:%M").to_s
 
-if strTime=="06:00"
+if strTime=="06:00"||strTime=="06:01"
 
 
      s = []
-     File.open("notebook.txt", mode = "rt"){|f|
-     s = f.readlines
-     }
+     require "pg"
+     # データベース接続する
+     connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => ENV["DB_NAME"],:port=>"5432")
+     result = connection.exec("SELECT * FROM notebook")
+     # データベースへのコネクションを切断する
+     connection.finish
+     #データベースの内容を配列に収納
+     result.each do |record|
+     s<<record['content']
+     end
      today=Date.today.to_s
      puts("Today is "+today)
      s=s.select{|item| item.include? (today)}
@@ -41,9 +48,16 @@ if strTime=="06:00"
 else
 
      s = []
-     File.open("notebook.txt", mode = "rt"){|f|
-     s = f.readlines
-     }
+     require "pg"
+     # データベース接続する
+      connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => ENV["DB_NAME"],:port=>"5432")
+     result = connection.exec("SELECT * FROM notebook")
+     # データベースへのコネクションを切断する
+     connection.finish
+     #データベースの内容を配列に収納
+     result.each do |record|
+     s<<record['content']
+     end
 
      puts("All contents")
      puts s.join()
@@ -60,21 +74,35 @@ else
 
      t = Time.now
      strTime = t.strftime("%H:%M").to_s
+
+
+     send=[]
      strTime = "!#{strTime}"
      puts ("\n\nI will find  #{strTime} from the array.")
-     s=s.select{|item| item.include?(strTime)}
+     send=s.select{|item| item.include?(strTime)}
+
+
+     if send.join()==""
+     #heroku may start later than the time I registered.
+     t = Time.now-Rational(1, 24 * 60)
+     strTime_error =t.strftime("%H:%M").to_s
+     send=s.select{|item| item.include?(strTime)}
+     else
+     puts ("\n\nIt seems capture contunts sucsessful just on time!!")
+     end
+
 
      puts("\n\nPush Contents")
-     puts s.join()
+     puts send.join()
      puts("Push contents end")
 
 
-     if s.join()==""
+     if send.join()==""
         puts"\n\nNo Tsak has been registered. The process has been finished."
 
 
      elsif
-      send=s.join()
+      send=send.join("\n")
       send="Reminder!\n#{send}"
       fix_arry=send
       message = {
