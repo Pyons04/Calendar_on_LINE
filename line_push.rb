@@ -50,7 +50,7 @@ else
      s = []
      require "pg"
      # データベース接続する
-     connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => ENV["DB_NAME"],:port=>"5432")
+     connection = PG::connect(:host => "localhost", :user => "postgres", :password => "takahama0613", :dbname => "notebook",:port=>"5432")
      result = connection.exec("SELECT * FROM notebook")
      # データベースへのコネクションを切断する
      connection.finish
@@ -83,14 +83,30 @@ else
 
 
      if send.join()==""
-     #heroku may start later than the time I registered.
-     t = Time.now-Rational(1, 24 * 60)
+
+     puts("\n\nBut, heroku may start this command 1min later than the time I registered...")
+     require 'rails'
+     t=Time.new- 60.second
 
      strTime_error =t.strftime("%H:%M").to_s
+     strTime_error = "!#{strTime_error}"
      send=s.select{|item| item.include?(strTime_error)}
      puts ("\n\nJust to be case ,I will find  #{strTime_error} from the array too.")
      else
-     puts ("\n\nIt seems capture contunts sucsessful just on time!!")
+     puts ("\n\nIt seems I captured contunts sucsessful just on time!!")
+     end
+
+     if send.join()==""
+     puts("\n\nBut, heroku may start this command 2min later than the time I registered...")
+     require 'rails'
+     t=Time.new- 120.second
+
+     strTime_error =t.strftime("%H:%M").to_s
+     strTime_error = "!#{strTime_error}"
+     send=s.select{|item| item.include?(strTime_error)}
+     puts ("\n\nJust to be case ,I will find  #{strTime_error} from the array too.")
+     else
+     puts ("\n\nIt seems I captured contunts sucsessful just on time on time or 1min after!!")
      end
 
 
