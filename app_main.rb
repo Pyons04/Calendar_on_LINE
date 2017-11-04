@@ -35,7 +35,7 @@ post '/callback' do
        s = []
      require "pg"
      # データベース接続する
-     connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => "d2m0jpbel3clgh",:port=>"5432")
+     connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => ENV["DB_NAME"],:port=>"5432")
      result = connection.exec("SELECT * FROM notebook")
      # データベースへのコネクションを切断する
      connection.finish
@@ -59,15 +59,16 @@ post '/callback' do
   else
      s=s.reject!{|e|e.include?(target)}
 #notebook.txtを削除
-     filename = 'notebook.txt'
-     File.unlink filename
-#新しくnotebook.txtを作成。
-    File.open("notebook.txt","w")do|f|
-#削除済みの配列をデータにして一つ一つ書き込みなおす。
-     s.each do |todo|
-      f.puts(todo)
+     #全てのレコードを削除を削除
+     connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => ENV["DB_NAME"],:port=>"5432")
+     result = connection.exec("DELETE FROM notebook")
+     connection.finish
+#削除済みの配列をデータにして一つ一つデータベースに書き込みなおす。
+      s.each do |todo|
+       connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => ENV["DB_NAME"],:port=>"5432")
+      result = connection.exec("INSERT INTO notebook(content) VALUES('#{todo}')")
+      connection.finish
      end
-    end
     number="削除に成功しました。"
     return(number)
   end
@@ -76,10 +77,18 @@ end
    def today(fix_arry)
 #ファイルの読み込み
   require "date"
-     s = []
-     File.open("notebook.txt", mode = "rt"){|f|
-     s = f.readlines
-     }
+      require "pg"
+# データベース接続する
+   connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => ENV["DB_NAME"],:port=>"5432")
+  result = connection.exec("SELECT * FROM notebook")
+  # データベースへのコネクションを切断する
+  connection.finish
+
+  s=[]
+
+  result.each do |record|
+    s<<record['content']
+  end
      today=Date.today.to_s
      puts("今日の日付は"+today)
      s=s.select{|item| item.include? (today)}
@@ -96,9 +105,16 @@ def tomorrow(fix_arry)
      require "rails"
      require "date"
      s = []
-     File.open("notebook.txt", mode = "rt"){|f|
-     s = f.readlines
-     }
+     require "pg"
+     # データベース接続する
+     connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => ENV["DB_NAME"],:port=>"5432")
+     result = connection.exec("SELECT * FROM notebook")
+     # データベースへのコネクションを切断する
+     connection.finish
+
+     result.each do |record|
+     s<<record['content']
+     end
      tomorrow=Date.tomorrow.to_s
      puts("明日の日付は"+tomorrow)
      s=s.select{|item| item.include? (tomorrow)}
@@ -113,9 +129,16 @@ def tomorrow(fix_arry)
   def month(fix_arry)
      require "rails"
      s = []
-     File.open("notebook.txt", mode = "rt"){|f|
-     s = f.readlines
-     }
+     require "pg"
+     # データベース接続する
+     connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => ENV["DB_NAME"],:port=>"5432")
+     result = connection.exec("SELECT * FROM notebook")
+     # データベースへのコネクションを切断する
+     connection.finish
+
+     result.each do |record|
+     s<<record['content']
+     end
 
      number=0
      send=[]
@@ -139,9 +162,16 @@ def tomorrow(fix_arry)
      require "rails"
      require "pry"
      s = []
-     File.open("notebook.txt", mode = "rt"){|f|
-     s = f.readlines
-     }
+     require "pg"
+     # データベース接続する
+     connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => ENV["DB_NAME"],:port=>"5432")
+     result = connection.exec("SELECT * FROM notebook")
+     # データベースへのコネクションを切断する
+     connection.finish
+
+     result.each do |record|
+     s<<record['content']
+     end
      today=Date.today.to_s
      tomorrow=Date.tomorrow.to_s
 
@@ -184,9 +214,16 @@ def tomorrow(fix_arry)
     #最も大きいリストの管理番号を入手しそれより一つ大きい管理番号を発行する。
      require "rails"
      s = []
-     File.open("notebook.txt", mode = "rt"){|f|
-     s = f.readlines
-     }
+     require "pg"
+     # データベース接続する
+     connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => ENV["DB_NAME"],:port=>"5432")
+     result = connection.exec("SELECT * FROM notebook")
+     # データベースへのコネクションを切断する
+     connection.finish
+
+     result.each do |record|
+     s<<record['content']
+     end
      last_management_number=s.last.to_s
      puts(last_management_number)
      re = Regexp.new('\[.+?\]')
@@ -198,10 +235,15 @@ def tomorrow(fix_arry)
     puts new_management_number
     content=content.chomp
     content=content.delete('Add')
-    File.open("notebook.txt","a") do |notebook|
-    notebook.puts("["+new_management_number.to_s+"]"+content)
-  end
-    return(content).delete('Add')
+    record_insert=("["+new_management_number.to_s+"]"+content)
+
+    puts record_insert.to_s
+
+    connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => ENV["DB_NAME"],:port=>"5432")
+    result = connection.exec("INSERT INTO notebook(content) VALUES('#{record_insert}')")
+     # データベースへのコネクションを切断する
+     connection.finish
+     return(content).delete('Add')
   end
 
 
