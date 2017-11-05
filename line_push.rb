@@ -50,7 +50,7 @@ else
      s = []
      require "pg"
      # データベース接続する
-     connection = PG::connect(:host => "localhost", :user => "postgres", :password => "takahama0613", :dbname => "notebook",:port=>"5432")
+     connection = PG::connect(:host => "ec2-54-235-213-202.compute-1.amazonaws.com", :user => "unjxvubkqdzxha", :password => ENV["DB_PASSWORD"], :dbname => ENV["DB_NAME"],:port=>"5432")
      result = connection.exec("SELECT * FROM notebook")
      # データベースへのコネクションを切断する
      connection.finish
