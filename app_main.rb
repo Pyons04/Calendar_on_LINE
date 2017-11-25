@@ -218,11 +218,18 @@ def tomorrow(fix_arry)
      result.each do |record|
      s<<record['content']
      end
-     last_management_number=s.last.to_s
-     puts(last_management_number)
+     
+     numbers=[]
+
+     s.each do |records|
+     last_management_number=records.to_s
      re = Regexp.new('\[.+?\]')
      last_management_number = re.match(last_management_number).to_s
      last_management_number=last_management_number.delete('[').delete(']').to_i
+     numbers<<last_management_number
+     end
+
+     last_management_number=numbers.max
      new_management_number=last_management_number+1
     #最も大きいリストの管理番号を入手しそれより一つ大きい管理番号を発行する。終わり。
 

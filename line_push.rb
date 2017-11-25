@@ -4,7 +4,7 @@ require "date"
 t = Time.now
 strTime = t.strftime("%H:%M").to_s
 
-if strTime=="06:00"||strTime=="06:01"
+if strTime=="06:00"||strTime=="06:01"||strTime=="06:02"
 
 
      s = []

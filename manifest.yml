@@ -1,7 +1,0 @@
-applications:
-- services:
-  - gcal_app
-  name: gcal_app
-  command: ruby quickstart.rb
-  path: .
-  memory: 128M
